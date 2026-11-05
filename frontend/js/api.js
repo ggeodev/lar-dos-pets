@@ -6,7 +6,7 @@
 // Local (localhost ou arquivo aberto direto) usa a API na sua máquina;
 // no GitHub Pages usa a API publicada. Troque API_PRODUCAO pelo endereço do seu backend.
 const EM_DESENVOLVIMENTO = ["localhost", "127.0.0.1", ""].includes(location.hostname);
-const API_PRODUCAO = "https://SEU-BACKEND.onrender.com/api";
+const API_PRODUCAO = "https://lar-dos-pets.onrender.com/api";
 const API_URL = EM_DESENVOLVIMENTO ? "http://localhost:8080/api" : API_PRODUCAO;
 
 /* ---------- Tradução entre a API (enums) e o que o usuário vê ---------- */
