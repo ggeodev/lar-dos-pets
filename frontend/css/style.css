@@ -1,0 +1,82 @@
+/* ==========================================================
+   style.css — estilos próprios do projeto (sobre o Bootstrap)
+   Para trocar a identidade visual, altere as variáveis abaixo.
+   ========================================================== */
+:root {
+  --cor-tinta: #12303b;      /* texto e fundos escuros */
+  --cor-mar: #1f6f78;        /* cor principal */
+  --cor-mar-escuro: #165259;
+  --cor-sol: #f2c94c;        /* cor de destaque (botões principais) */
+  --cor-neblina: #eef5f4;    /* fundo de seções claras */
+  --cor-borda: #d3e2e0;
+  --fonte-titulo: "Bricolage Grotesque", system-ui, sans-serif;
+  --fonte-corpo: "Nunito Sans", system-ui, sans-serif;
+}
+
+body { font-family: var(--fonte-corpo); color: var(--cor-tinta); background: #fff; }
+h1, h2, h3, h4, h5, .navbar-brand { font-family: var(--fonte-titulo); font-weight: 700; letter-spacing: -0.01em; }
+
+/* Acessibilidade: foco visível no teclado */
+:focus-visible { outline: 3px solid var(--cor-sol); outline-offset: 2px; }
+
+/* ---------- Navbar ---------- */
+.navbar-adocao { background: var(--cor-tinta); }
+.navbar-adocao .nav-link { color: #cfe3e0; }
+.navbar-adocao .nav-link:hover,
+.navbar-adocao .nav-link.active { color: #fff; }
+.navbar-adocao .navbar-brand { color: #fff; }
+
+/* ---------- Botões ---------- */
+.btn-sol { background: var(--cor-sol); color: var(--cor-tinta); font-weight: 700; border: 0; }
+.btn-sol:hover { background: #e6b92f; color: var(--cor-tinta); }
+.btn-mar { background: var(--cor-mar); color: #fff; font-weight: 700; border: 0; }
+.btn-mar:hover { background: var(--cor-mar-escuro); color: #fff; }
+
+/* ---------- Hero (página inicial) ---------- */
+.hero { background: var(--cor-tinta); color: #fff; padding: 5rem 0; }
+.hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; }
+.hero p { color: #cfe3e0; max-width: 34rem; }
+.hero-vitrine { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.hero-vitrine .foto-animal { aspect-ratio: 1; border-radius: 1.25rem; font-size: 4rem; }
+.hero-vitrine .foto-animal:nth-child(2) { transform: translateY(1.5rem); }
+
+/* ---------- Seções ---------- */
+.secao { padding: 4rem 0; }
+.secao-clara { background: var(--cor-neblina); }
+
+/* ---------- Foto fictícia (emoji sobre cor) ----------
+   Troque por <img> reais quando houver upload de fotos. */
+.foto-animal { display: flex; align-items: center; justify-content: center; font-size: 5rem; }
+.foto-animal.tom-0 { background: #cfe8e4; }
+.foto-animal.tom-1 { background: #fbe9b0; }
+.foto-animal.tom-2 { background: #d9e3f4; }
+.foto-animal.tom-3 { background: #f6d9d2; }
+
+/* ---------- Card de animal ---------- */
+.card-animal { border: 1px solid var(--cor-borda); border-radius: 1rem; overflow: hidden; height: 100%; }
+.card-animal .foto-animal { height: 180px; }
+.card-animal .card-title a { color: var(--cor-tinta); text-decoration: none; }
+.card-animal .card-title a:hover { color: var(--cor-mar); }
+.etiqueta { background: var(--cor-neblina); color: var(--cor-mar-escuro); font-weight: 600; font-size: .8rem; border-radius: 2rem; padding: .2rem .65rem; display: inline-block; }
+
+/* ---------- Catálogo ---------- */
+.painel-filtros { background: var(--cor-neblina); border-radius: 1rem; padding: 1.25rem; }
+@media (min-width: 992px) { .painel-filtros { position: sticky; top: 1rem; } }
+
+/* ---------- Perfil ---------- */
+.perfil-foto { height: 340px; border-radius: 1.25rem; font-size: 9rem; }
+.ficha dt { font-weight: 600; color: var(--cor-mar-escuro); }
+.ficha dd { margin-bottom: .75rem; }
+.caixa-adocao { border: 2px solid var(--cor-sol); border-radius: 1rem; padding: 1.25rem; background: #fffbea; }
+
+/* ---------- Formulários ---------- */
+.cartao-form { border: 1px solid var(--cor-borda); border-radius: 1rem; padding: 2rem; }
+.aviso-demo { background: #fffbea; border-left: 4px solid var(--cor-sol); padding: .75rem 1rem; border-radius: .5rem; font-size: .9rem; }
+
+/* ---------- Rodapé ---------- */
+.rodape { background: var(--cor-tinta); color: #cfe3e0; padding: 2.5rem 0; }
+.rodape a { color: #fff; }
+
+/* Home: 4 cards por linha em telas largas (o card base usa 3 colunas) */
+#lista-destaques > .col-xl-4 { flex: 0 0 auto; }
+@media (min-width: 1200px) { #lista-destaques > .col-xl-4 { width: 25%; } }

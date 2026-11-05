@@ -1,0 +1,15 @@
+# PostgreSQL local para desenvolvimento: docker compose up -d
+services:
+  postgres:
+    image: postgres:16
+    container_name: adocao-postgres
+    environment:
+      POSTGRES_DB: adocao
+      POSTGRES_USER: adocao
+      POSTGRES_PASSWORD: adocao
+    ports:
+      - "5432:5432"
+    volumes:
+      - adocao-dados:/var/lib/postgresql/data
+volumes:
+  adocao-dados:
