@@ -3,7 +3,11 @@
    Todas as chamadas à API ficam aqui. Para trocar o endereço
    do servidor (ex.: ao publicar o site), altere só API_URL.
    ========================================================== */
-const API_URL = "http://localhost:8080/api";
+// Local (localhost ou arquivo aberto direto) usa a API na sua máquina;
+// no GitHub Pages usa a API publicada. Troque API_PRODUCAO pelo endereço do seu backend.
+const EM_DESENVOLVIMENTO = ["localhost", "127.0.0.1", ""].includes(location.hostname);
+const API_PRODUCAO = "https://SEU-BACKEND.onrender.com/api";
+const API_URL = EM_DESENVOLVIMENTO ? "http://localhost:8080/api" : API_PRODUCAO;
 
 /* ---------- Tradução entre a API (enums) e o que o usuário vê ---------- */
 const ROTULOS = {
@@ -57,7 +61,7 @@ async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
   try {
     resposta = await fetch(API_URL + caminho, opcoes);
   } catch {
-    throw new ErroApi(0, "Não foi possível conectar ao servidor. Verifique se a API está em execução.");
+    throw new ErroApi(0, "Não foi possível conectar ao servidor. Se ele estiver em modo de espera, aguarde cerca de 1 minuto e recarregue a página.");
   }
   const dados = await resposta.json().catch(() => null);
   if (!resposta.ok) throw new ErroApi(resposta.status, dados?.detail || "Erro inesperado no servidor.", dados?.erros);

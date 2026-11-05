@@ -52,3 +52,17 @@ curl -X POST http://localhost:8080/api/interesses -H "Content-Type: application/
 ## Ainda não existe (próximas etapas)
 Login/autenticação (hoje qualquer pessoa pode cadastrar animais), upload de fotos,
 painel para o responsável ver os interesses recebidos, migrações Flyway e testes automatizados.
+
+## Sem Docker: PostgreSQL instalado direto (Ubuntu/Debian)
+```
+sudo apt update && sudo apt install -y postgresql openjdk-17-jdk maven
+sudo -u postgres psql -c "CREATE USER adocao WITH PASSWORD 'adocao';"
+sudo -u postgres psql -c "CREATE DATABASE adocao OWNER adocao;"
+mvn spring-boot:run
+```
+Em Windows/macOS, instale o PostgreSQL pelo instalador oficial e crie o mesmo usuário e banco
+(ou ajuste as variáveis DB_USER, DB_PASSWORD e DB_NAME).
+
+## Variáveis para hospedagem
+DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD (banco), CORS_ORIGINS (site autorizado, ex.:
+https://seu-usuario.github.io) e PORT (a hospedagem define). O Dockerfile já está pronto.
