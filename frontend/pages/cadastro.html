@@ -15,20 +15,18 @@
   <main class="secao">
     <div class="container" style="max-width: 820px;">
       <h1>Cadastrar animal para adoção</h1>
-      <p class="text-muted">Para responsáveis por animais. Preencha os dados do animal e as suas informações de contato.</p>
+      <p class="text-muted">O animal ficará vinculado à sua conta, e os pedidos de adoção chegarão ao seu painel.</p>
 
       <form id="form-cadastro" class="cartao-form" novalidate>
-        <!-- DADOS DO ANIMAL -->
-        <h2 class="h5 mb-3">Dados do animal</h2>
         <div class="row g-3 mb-4">
           <div class="col-md-6">
             <label for="nome-animal" class="form-label">Nome</label>
-            <input id="nome-animal" type="text" class="form-control" required>
+            <input id="nome-animal" type="text" class="form-control" maxlength="80" required>
             <div class="invalid-feedback">Informe o nome do animal.</div>
           </div>
           <div class="col-md-6">
             <label for="idade" class="form-label">Idade aproximada</label>
-            <input id="idade" type="text" class="form-control" placeholder="Ex.: 2 anos ou 6 meses" required>
+            <input id="idade" type="text" class="form-control" maxlength="40" placeholder="Ex.: 2 anos ou 6 meses" required>
             <div class="invalid-feedback">Informe a idade aproximada.</div>
           </div>
           <div class="col-md-4">
@@ -53,54 +51,33 @@
             <div class="invalid-feedback">Selecione o sexo.</div>
           </div>
           <div class="col-12">
+            <label for="cidade" class="form-label">Cidade onde o animal está</label>
+            <input id="cidade" type="text" class="form-control" maxlength="100" placeholder="Ex.: Araraquara, SP" required>
+            <div class="invalid-feedback">Informe a cidade.</div>
+          </div>
+          <div class="col-12">
             <label for="saude" class="form-label">Saúde (vacinas, castração, tratamentos)</label>
-            <input id="saude" type="text" class="form-control" required>
+            <input id="saude" type="text" class="form-control" maxlength="200" required>
             <div class="invalid-feedback">Descreva a situação de saúde.</div>
           </div>
           <div class="col-12">
             <label for="descricao" class="form-label">Descrição e temperamento</label>
-            <textarea id="descricao" rows="4" class="form-control" required></textarea>
+            <textarea id="descricao" rows="4" class="form-control" maxlength="2000" required></textarea>
             <div class="invalid-feedback">Escreva uma descrição do animal.</div>
           </div>
-          <div class="col-12">
-            <label for="foto" class="form-label">Foto</label>
-            <input id="foto" type="file" accept="image/*" class="form-control">
-            <div class="form-text">O envio de fotos será adicionado em uma próxima etapa; esta foto ainda não é enviada.</div>
-          </div>
         </div>
-
-        <!-- DADOS DO RESPONSÁVEL -->
-        <h2 class="h5 mb-3">Responsável</h2>
-        <div class="row g-3 mb-4">
-          <div class="col-md-6">
-            <label for="responsavel" class="form-label">Nome ou organização</label>
-            <input id="responsavel" type="text" class="form-control" required>
-            <div class="invalid-feedback">Informe o nome do responsável.</div>
-          </div>
-          <div class="col-md-6">
-            <label for="cidade-resp" class="form-label">Cidade</label>
-            <input id="cidade-resp" type="text" class="form-control" required>
-            <div class="invalid-feedback">Informe a cidade.</div>
-          </div>
-          <div class="col-md-6">
-            <label for="email-resp" class="form-label">E-mail</label>
-            <input id="email-resp" type="email" class="form-control" required>
-            <div class="invalid-feedback">Informe um e-mail válido.</div>
-          </div>
-          <div class="col-md-6">
-            <label for="tel-resp" class="form-label">Telefone / WhatsApp</label>
-            <input id="tel-resp" type="tel" class="form-control" required>
-            <div class="invalid-feedback">Informe um telefone para contato.</div>
-          </div>
-        </div>
+        <p class="text-muted small">As fotos ainda são ilustrativas: o envio de fotos será adicionado em uma próxima etapa.</p>
         <div id="erro-envio" class="alert alert-danger d-none" role="alert"></div>
         <button type="submit" class="btn btn-sol btn-lg">Cadastrar animal</button>
       </form>
 
       <div id="confirmacao" class="cartao-form text-center d-none" role="status">
         <h2 class="h4">Animal cadastrado</h2>
-        <p>O animal foi cadastrado e já aparece no catálogo.</p>
-        <a id="link-novo-animal" href="animais.html" class="btn btn-mar">Ver perfil do animal</a>
+        <p>O animal já aparece no catálogo. Quando alguém demonstrar interesse, o pedido aparece no seu painel.</p>
+        <div class="d-flex flex-wrap justify-content-center gap-2">
+          <a id="link-novo-animal" href="animais.html" class="btn btn-mar">Ver perfil do animal</a>
+          <a href="painel.html" class="btn btn-outline-dark">Ir para meus animais</a>
+        </div>
       </div>
     </div>
   </main>

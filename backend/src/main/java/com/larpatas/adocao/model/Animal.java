@@ -47,15 +47,10 @@ public class Animal {
     @Column(name = "foto_url", length = 300)
     private String fotoUrl;
 
-    @Column(name = "responsavel_nome", nullable = false, length = 100)
-    private String responsavelNome;
-
-    // Contato do responsável: guardado, mas NÃO exposto na API pública (ver AnimalResponse).
-    @Column(name = "responsavel_email", nullable = false, length = 150)
-    private String responsavelEmail;
-
-    @Column(name = "responsavel_telefone", nullable = false, length = 30)
-    private String responsavelTelefone;
+    /** Dono do cadastro. Só ele vê os interessados e altera o status. */
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "responsavel_id", nullable = false)
+    private Usuario responsavel;
 
     @Column(nullable = false)
     private boolean destaque = false;
@@ -68,11 +63,8 @@ public class Animal {
     private Instant criadoEm;
 
     @PrePersist
-    void antesDeSalvar() {
-        criadoEm = Instant.now();
-    }
+    void antesDeSalvar() { criadoEm = Instant.now(); }
 
-    // ----- getters e setters -----
     public Long getId() { return id; }
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
@@ -94,12 +86,8 @@ public class Animal {
     public void setTemperamento(String temperamento) { this.temperamento = temperamento; }
     public String getFotoUrl() { return fotoUrl; }
     public void setFotoUrl(String fotoUrl) { this.fotoUrl = fotoUrl; }
-    public String getResponsavelNome() { return responsavelNome; }
-    public void setResponsavelNome(String responsavelNome) { this.responsavelNome = responsavelNome; }
-    public String getResponsavelEmail() { return responsavelEmail; }
-    public void setResponsavelEmail(String responsavelEmail) { this.responsavelEmail = responsavelEmail; }
-    public String getResponsavelTelefone() { return responsavelTelefone; }
-    public void setResponsavelTelefone(String responsavelTelefone) { this.responsavelTelefone = responsavelTelefone; }
+    public Usuario getResponsavel() { return responsavel; }
+    public void setResponsavel(Usuario responsavel) { this.responsavel = responsavel; }
     public boolean isDestaque() { return destaque; }
     public void setDestaque(boolean destaque) { this.destaque = destaque; }
     public StatusAnimal getStatus() { return status; }

@@ -1,57 +1,64 @@
 # Lar de Patas — API (Spring Boot)
 
-Requisitos: Java 17+, Maven 3.9+ (ou use o IDE) e Docker (para o PostgreSQL).
+Requisitos: Java 17+, Maven 3.9+ e PostgreSQL (com Docker ou instalado direto).
 
 ## Executar
-1. Subir o banco:        `docker compose up -d`
-2. Rodar a API:          `mvn spring-boot:run`
-3. Testar no navegador:  http://localhost:8080/api/animais
+1. Banco: `docker compose up -d` (ou PostgreSQL instalado, veja abaixo)
+2. API:   `mvn spring-boot:run`
+3. Teste: http://localhost:8080/api/animais
 
-Sem Docker? Crie um banco `adocao` no PostgreSQL local e ajuste usuário/senha
-com as variáveis DB_HOST, DB_PORT, DB_NAME, DB_USER e DB_PASSWORD.
+**IMPORTANTE ao atualizar da versão sem login:** o modelo de dados mudou (animais agora pertencem a
+uma conta). Rode UMA vez com `DDL_AUTO=create`, o que apaga e recria as tabelas:
+`DDL_AUTO=create mvn spring-boot:run` (Linux/macOS) · no Windows (PowerShell): `$env:DDL_AUTO="create"; mvn spring-boot:run`.
+Nas execuções seguintes, rode normalmente. NUNCA deixe DDL_AUTO=create fixo: apaga os dados a cada início.
 
-No perfil `dev` (padrão), 8 animais fictícios são carregados se o banco estiver vazio.
-As tabelas `animais` e `interesses` são criadas automaticamente.
+No perfil `dev` (padrão), animais, contas e pedidos fictícios são carregados se o banco estiver vazio.
+Contas de teste (senha de todas: `demo1234`): patas@exemplo.com (ONG, tem Thor, Mel e Rex com pedidos),
+maria@exemplo.com, joao@exemplo.com, vet@exemplo.com.
 
 ## Endpoints
-| Método | Rota | Para quê |
-|---|---|---|
-| GET | /api/animais | Catálogo. Filtros opcionais: especie, porte, sexo, cidade, destaque |
-| GET | /api/animais/cidades | Opções do filtro de localização |
-| GET | /api/animais/{id} | Perfil do animal |
-| POST | /api/animais | Cadastro de animal (201 + Location) |
-| POST | /api/interesses | Formulário de interesse (201) |
+| Método | Rota | Acesso | Para quê |
+|---|---|---|---|
+| GET | /api/animais | público | Catálogo. Filtros: especie, porte, sexo, cidade, destaque |
+| GET | /api/animais/cidades | público | Opções do filtro de localização |
+| GET | /api/animais/{id} | público | Perfil (animais adotados aparecem com status ADOTADO) |
+| POST | /api/interesses | público | Formulário de interesse (409 se já pediu com o mesmo e-mail) |
+| POST | /api/auth/registro | público | Criar conta (devolve token) |
+| POST | /api/auth/login | público | Entrar (devolve token) |
+| POST | /api/animais | login | Cadastrar animal na conta logada |
+| GET | /api/meus-animais | login | Animais da conta, com total de interessados |
+| GET | /api/meus-animais/{id}/interesses | login (dono) | Pedidos recebidos, com contato |
+| PATCH | /api/meus-animais/{id}/status | login (dono) | `{"status":"ADOTADO"}` ou `{"status":"DISPONIVEL"}` |
+
+Rotas com login exigem o cabeçalho `Authorization: Bearer <token>`. Sem token: 401.
+Animal de outra conta responde 404 (não revela que existe).
 
 Valores aceitos: especie = CACHORRO, GATO, COELHO, OUTRA · porte = PEQUENO, MEDIO, GRANDE ·
 sexo = MACHO, FEMEA · moradia = CASA_COM_QUINTAL, CASA_SEM_QUINTAL, APARTAMENTO.
 
 ## Exemplos (curl)
 ```
-curl "http://localhost:8080/api/animais?especie=GATO&porte=PEQUENO"
+# entrar e guardar o token
+TOKEN=$(curl -s -X POST http://localhost:8080/api/auth/login -H "Content-Type: application/json" \
+  -d '{"email":"patas@exemplo.com","senha":"demo1234"}' | python3 -c "import sys,json;print(json.load(sys.stdin)['token'])")
 
-curl -X POST http://localhost:8080/api/animais -H "Content-Type: application/json" -d '{
+curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/api/meus-animais
+curl -H "Authorization: Bearer $TOKEN" http://localhost:8080/api/meus-animais/1/interesses
+
+curl -X POST http://localhost:8080/api/animais -H "Authorization: Bearer $TOKEN" -H "Content-Type: application/json" -d '{
   "nome":"Frida","especie":"GATO","porte":"PEQUENO","sexo":"FEMEA","idade":"1 ano",
-  "cidade":"Araraquara, SP","descricao":"Gata tranquila e carinhosa.","saude":"Vacinada",
-  "responsavelNome":"Ana Lima","responsavelEmail":"ana@exemplo.com","responsavelTelefone":"(16) 99999-0000"}'
-
-curl -X POST http://localhost:8080/api/interesses -H "Content-Type: application/json" -d '{
-  "animalId":1,"nome":"Carlos Dias","cidade":"Araraquara","email":"carlos@exemplo.com",
-  "telefone":"(16) 98888-0000","moradia":"CASA_COM_QUINTAL","possuiOutrosAnimais":false,
-  "motivo":"Sempre tive cães e tenho espaço.","aceitouTermo":true}'
+  "cidade":"Araraquara, SP","descricao":"Gata tranquila e carinhosa.","saude":"Vacinada"}'
 ```
 
-## Estrutura
-- model/       entidades JPA (Animal, Interesse) e enums
-- repository/  acesso ao banco (Spring Data JPA) e filtros do catálogo (AnimalSpecs)
-- service/     regras de negócio
-- controller/  rotas REST
-- dto/         formatos de entrada/saída da API (com validação)
-- exception/   tratamento padronizado de erros
-- config/      CORS e dados iniciais de desenvolvimento
-
-## Ainda não existe (próximas etapas)
-Login/autenticação (hoje qualquer pessoa pode cadastrar animais), upload de fotos,
-painel para o responsável ver os interesses recebidos, migrações Flyway e testes automatizados.
+## Variáveis de ambiente
+| Variável | Para quê |
+|---|---|
+| DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD | Conexão com o PostgreSQL |
+| JWT_SECRET | Texto longo e aleatório (mín. 32 caracteres) que assina os logins. Sem ele, um segredo temporário é gerado a cada início e os logins caem quando a API reinicia |
+| JWT_HORAS | Validade do login em horas (padrão 12) |
+| CORS_ORIGINS | Sites autorizados, ex.: https://seu-usuario.github.io |
+| DDL_AUTO | `update` (padrão) ou `create` (apaga e recria, só uma vez) |
+| PORT | Porta (a hospedagem define) |
 
 ## Sem Docker: PostgreSQL instalado direto (Ubuntu/Debian)
 ```
@@ -60,9 +67,14 @@ sudo -u postgres psql -c "CREATE USER adocao WITH PASSWORD 'adocao';"
 sudo -u postgres psql -c "CREATE DATABASE adocao OWNER adocao;"
 mvn spring-boot:run
 ```
-Em Windows/macOS, instale o PostgreSQL pelo instalador oficial e crie o mesmo usuário e banco
-(ou ajuste as variáveis DB_USER, DB_PASSWORD e DB_NAME).
 
-## Variáveis para hospedagem
-DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD (banco), CORS_ORIGINS (site autorizado, ex.:
-https://seu-usuario.github.io) e PORT (a hospedagem define). O Dockerfile já está pronto.
+## Estrutura
+- model/ entidades (Usuario, Animal, Interesse) e enums · repository/ acesso ao banco
+- service/ regras de negócio · controller/ rotas REST · dto/ entradas e saídas (com validação)
+- security/ token JWT e filtro de login · config/ regras de acesso, CORS e dados de demonstração
+- exception/ erros padronizados
+
+## Segurança: o que está feito e o que não está
+Feito: senhas com BCrypt, token JWT com validade, rotas protegidas, dono verificado em cada operação,
+contato dos interessados visível só ao responsável, e-mail/telefone fora das respostas públicas.
+Não feito: limite de tentativas de login, recuperação de senha, confirmação de e-mail, upload de fotos.

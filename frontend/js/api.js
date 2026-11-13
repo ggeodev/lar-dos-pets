@@ -1,8 +1,9 @@
 /* ==========================================================
-   api.js — comunicação com o backend Spring Boot
+   api.js — comunicação com o backend Spring Boot e sessão de login
    Todas as chamadas à API ficam aqui. Para trocar o endereço
-   do servidor (ex.: ao publicar o site), altere só API_URL.
+   do servidor (ex.: ao publicar o site), altere só API_PRODUCAO.
    ========================================================== */
+
 // Local (localhost ou arquivo aberto direto) usa a API na sua máquina;
 // no GitHub Pages usa a API publicada. Troque API_PRODUCAO pelo endereço do seu backend.
 const EM_DESENVOLVIMENTO = ["localhost", "127.0.0.1", ""].includes(location.hostname);
@@ -13,7 +14,8 @@ const API_URL = EM_DESENVOLVIMENTO ? "http://localhost:8080/api" : API_PRODUCAO;
 const ROTULOS = {
   especie: { CACHORRO: "Cachorro", GATO: "Gato", COELHO: "Coelho", OUTRA: "Outra" },
   porte:   { PEQUENO: "Pequeno", MEDIO: "Médio", GRANDE: "Grande" },
-  sexo:    { MACHO: "Macho", FEMEA: "Fêmea" }
+  sexo:    { MACHO: "Macho", FEMEA: "Fêmea" },
+  moradia: { CASA_COM_QUINTAL: "Casa com quintal", CASA_SEM_QUINTAL: "Casa sem quintal", APARTAMENTO: "Apartamento" }
 };
 const EMOJIS_ESPECIE = { CACHORRO: "🐕", GATO: "🐈", COELHO: "🐇", OUTRA: "🐾" };
 
@@ -42,20 +44,44 @@ function adaptarAnimal(r) {
     saude: r.saude,
     temperamento: r.temperamento || "Não informado",
     responsavel: r.responsavelNome,
-    destaque: r.destaque
+    destaque: r.destaque,
+    status: r.status
   };
 }
+
+/* ---------- Sessão de login (token guardado no navegador) ---------- */
+const CHAVE_SESSAO = "lar_sessao";
+function lerSessao() { try { return JSON.parse(localStorage.getItem(CHAVE_SESSAO)); } catch { return null; } }
+function salvarSessao(resposta) {
+  try { localStorage.setItem(CHAVE_SESSAO, JSON.stringify({ token: resposta.token, usuario: resposta.usuario })); } catch { /* storage bloqueado */ }
+}
+function sair() { try { localStorage.removeItem(CHAVE_SESSAO); } catch { /* ignora */ } }
+function usuarioLogado() { return lerSessao()?.usuario || null; }
+
+/** Páginas restritas chamam isto no início: sem login, vão para a tela de entrar e voltam depois. */
+function exigirLogin() {
+  if (usuarioLogado()) return true;
+  location.replace("entrar.html?voltar=" + encodeURIComponent(location.pathname.split("/").pop()));
+  return false;
+}
+/** Aceita só nomes simples de página (ex.: "painel.html"), evitando redirecionar para sites externos. */
+function destinoSeguro(voltar) { return /^[a-z-]+\.html$/.test(voltar || "") ? voltar : "painel.html"; }
 
 /* ---------- Chamada genérica ---------- */
 class ErroApi extends Error {
   constructor(status, mensagem, erros) { super(mensagem); this.status = status; this.erros = erros || null; }
 }
 
-async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
-  const opcoes = { method: metodo };
+async function chamarApi(caminho, { metodo = "GET", corpo, autenticado = false } = {}) {
+  const opcoes = { method: metodo, headers: {} };
   if (corpo !== undefined) {              // só enviamos Content-Type quando há corpo (evita preflight em GET)
-    opcoes.headers = { "Content-Type": "application/json" };
+    opcoes.headers["Content-Type"] = "application/json";
     opcoes.body = JSON.stringify(corpo);
+  }
+  if (autenticado) {
+    const token = lerSessao()?.token;
+    if (!token) throw new ErroApi(401, "Você precisa entrar para continuar.");
+    opcoes.headers.Authorization = "Bearer " + token;
   }
   let resposta;
   try {
@@ -63,12 +89,16 @@ async function chamarApi(caminho, { metodo = "GET", corpo } = {}) {
   } catch {
     throw new ErroApi(0, "Não foi possível conectar ao servidor. Se ele estiver em modo de espera, aguarde cerca de 1 minuto e recarregue a página.");
   }
+  if (resposta.status === 401 && autenticado) {   // token vencido ou inválido
+    sair();
+    throw new ErroApi(401, "Sua sessão expirou. Entre novamente.");
+  }
   const dados = await resposta.json().catch(() => null);
   if (!resposta.ok) throw new ErroApi(resposta.status, dados?.detail || "Erro inesperado no servidor.", dados?.erros);
   return dados;
 }
 
-/* ---------- Operações usadas pelas páginas ---------- */
+/* ---------- Operações públicas ---------- */
 async function listarAnimais(filtros = {}) {
   const params = new URLSearchParams();
   Object.entries(filtros).forEach(([k, v]) => { if (v !== undefined && v !== "") params.set(k, v); });
@@ -77,8 +107,19 @@ async function listarAnimais(filtros = {}) {
 }
 async function buscarAnimal(id)       { return adaptarAnimal(await chamarApi(`/animais/${encodeURIComponent(id)}`)); }
 async function listarCidades()        { return chamarApi("/animais/cidades"); }
-async function cadastrarAnimal(dados) { return adaptarAnimal(await chamarApi("/animais", { metodo: "POST", corpo: dados })); }
 async function enviarInteresse(dados) { return chamarApi("/interesses", { metodo: "POST", corpo: dados }); }
+
+/* ---------- Conta ---------- */
+async function criarConta(dados)     { return chamarApi("/auth/registro", { metodo: "POST", corpo: dados }); }
+async function entrarNaConta(dados)  { return chamarApi("/auth/login", { metodo: "POST", corpo: dados }); }
+
+/* ---------- Operações que exigem login ---------- */
+async function cadastrarAnimal(dados) { return adaptarAnimal(await chamarApi("/animais", { metodo: "POST", corpo: dados, autenticado: true })); }
+async function meusAnimais()          { return chamarApi("/meus-animais", { autenticado: true }); }
+async function interessadosDoAnimal(id) { return chamarApi(`/meus-animais/${id}/interesses`, { autenticado: true }); }
+async function alterarStatusAnimal(id, status) {
+  return chamarApi(`/meus-animais/${id}/status`, { metodo: "PATCH", corpo: { status }, autenticado: true });
+}
 
 /* ---------- Mensagens de erro e carregamento ---------- */
 function mensagemDeErro(e) {

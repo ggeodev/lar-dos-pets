@@ -3,8 +3,8 @@ package com.larpatas.adocao.dto;
 import com.larpatas.adocao.model.*;
 
 /**
- * Dados públicos do animal. Repare que e-mail e telefone do responsável
- * NÃO aparecem aqui de propósito: o contato passa pelo formulário de interesse.
+ * Dados públicos do animal. Contato do responsável não aparece aqui de propósito:
+ * quem tem interesse usa o formulário, e o responsável vê os pedidos no painel.
  */
 public record AnimalResponse(
         Long id, String nome, Especie especie, Porte porte, Sexo sexo, String idade,
@@ -14,6 +14,6 @@ public record AnimalResponse(
     public static AnimalResponse de(Animal a) {
         return new AnimalResponse(a.getId(), a.getNome(), a.getEspecie(), a.getPorte(), a.getSexo(),
                 a.getIdade(), a.getCidade(), a.getDescricao(), a.getSaude(), a.getTemperamento(),
-                a.getFotoUrl(), a.getResponsavelNome(), a.isDestaque(), a.getStatus());
+                a.getFotoUrl(), a.getResponsavel().getNome(), a.isDestaque(), a.getStatus());
     }
 }

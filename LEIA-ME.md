@@ -13,3 +13,8 @@ Se o site mostrar "Não foi possível conectar ao servidor", a API não está ro
 ou o endereço em frontend/js/api.js (API_URL) está diferente.
 
 Detalhes da API: backend/LEIA-ME.md
+
+## Contas de demonstração (perfil dev)
+Senha de todas: `demo1234`. A ONG (patas@exemplo.com) tem animais com pedidos de adoção para testar o painel.
+Em um site público, essas contas existem enquanto o perfil `dev` estiver ativo (padrão): serve para apresentar
+o trabalho, mas não use dados reais nelas.

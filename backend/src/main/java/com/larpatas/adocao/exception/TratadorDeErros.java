@@ -2,6 +2,7 @@ package com.larpatas.adocao.exception;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -46,5 +47,16 @@ public class TratadorDeErros {
     ProblemDetail parametroInvalido(MethodArgumentTypeMismatchException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
                 "Valor inválido para o parâmetro '" + ex.getName() + "'.");
+    }
+
+    @ExceptionHandler(CredenciaisInvalidasException.class)
+    ProblemDetail credenciais(CredenciaisInvalidasException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
+    }
+
+    /** Restrição única violada em corrida (ex.: dois cadastros simultâneos com o mesmo e-mail). */
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    ProblemDetail integridade(DataIntegrityViolationException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, "Esses dados entram em conflito com um registro existente.");
     }
 }

@@ -6,10 +6,21 @@
 const BASE = document.body.dataset.base || "";
 const PAGINA = document.body.dataset.pagina || "";
 
-/* Menu superior */
+/* Menu superior: muda conforme a pessoa esteja logada ou não */
 function renderNavbar() {
+  const usuario = usuarioLogado();
   const item = (chave, href, rotulo) =>
     `<li class="nav-item"><a class="nav-link ${PAGINA === chave ? "active" : ""}" href="${BASE}${href}">${rotulo}</a></li>`;
+  const comuns = item("inicio", "index.html", "Início") + item("animais", "pages/animais.html", "Animais");
+  const links = usuario
+    ? comuns
+      + item("painel", "pages/painel.html", "Meus animais")
+      + item("cadastro", "pages/cadastro.html", "Cadastrar animal")
+      + `<li class="nav-item"><button id="btn-sair" type="button" class="btn btn-link nav-link">Sair (${esc(usuario.nome.split(" ")[0])})</button></li>`
+    : comuns
+      + item("entrar", "pages/entrar.html", "Entrar")
+      + `<li class="nav-item"><a class="btn btn-sol btn-sm" href="${BASE}pages/criar-conta.html">Criar conta</a></li>`;
+
   document.getElementById("navbar").innerHTML = `
     <nav class="navbar navbar-expand-lg navbar-dark navbar-adocao">
       <div class="container">
@@ -18,14 +29,15 @@ function renderNavbar() {
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="menu">
-          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-            ${item("inicio", "index.html", "Início")}
-            ${item("animais", "pages/animais.html", "Animais")}
-            ${item("cadastro", "pages/cadastro.html", "Cadastrar animal")}
-          </ul>
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">${links}</ul>
         </div>
       </div>
     </nav>`;
+
+  document.getElementById("btn-sair")?.addEventListener("click", () => {
+    sair();
+    location.href = BASE + "index.html";
+  });
 }
 
 /* Rodapé */

@@ -25,17 +25,23 @@ function montarPerfil(animal) {
           <dt class="col-5">Temperamento</dt><dd class="col-7">${esc(animal.temperamento)}</dd>
           <dt class="col-5">Saúde</dt><dd class="col-7">${esc(animal.saude)}</dd>
         </dl>
-        <!-- Informações sobre adoção -->
+        <!-- Informações sobre adoção (some quando o animal já foi adotado) -->
+        ${animal.status === "ADOTADO" ? `
+        <div class="alert alert-secondary mb-0">
+          <strong>${esc(animal.nome)} já encontrou um lar.</strong>
+          Veja outros animais que ainda esperam por uma família.
+          <div class="mt-2"><a class="btn btn-mar btn-sm" href="animais.html">Ver animais disponíveis</a></div>
+        </div>` : `
         <div class="caixa-adocao">
           <h2 class="h5">Como adotar ${esc(animal.nome)}</h2>
           <p class="mb-2">Responsável: <strong>${esc(animal.responsavel)}</strong></p>
           <ul class="mb-3">
             <li>Envie o formulário de interesse.</li>
-            <li>O responsável analisa os pedidos e combina uma visita.</li>
+            <li>O responsável analisa os pedidos e entra em contato para combinar uma visita.</li>
             <li>A adoção é feita com assinatura de termo de responsabilidade.</li>
           </ul>
           <a class="btn btn-sol btn-lg" href="interesse.html?id=${animal.id}">Tenho interesse em adotar</a>
-        </div>
+        </div>`}
       </div>
     </div>`;
 }

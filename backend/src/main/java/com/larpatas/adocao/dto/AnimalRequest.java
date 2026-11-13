@@ -3,7 +3,7 @@ package com.larpatas.adocao.dto;
 import com.larpatas.adocao.model.*;
 import jakarta.validation.constraints.*;
 
-/** Corpo do POST /api/animais (formulário "Cadastrar animal"). */
+/** Corpo do POST /api/animais. O responsável é a conta logada, por isso não vem no corpo. */
 public record AnimalRequest(
         @NotBlank @Size(max = 80) String nome,
         @NotNull Especie especie,
@@ -13,7 +13,4 @@ public record AnimalRequest(
         @NotBlank @Size(max = 100) String cidade,
         @NotBlank @Size(max = 2000) String descricao,
         @NotBlank @Size(max = 200) String saude,
-        @Size(max = 200) String temperamento,
-        @NotBlank @Size(max = 100) String responsavelNome,
-        @NotBlank @Email @Size(max = 150) String responsavelEmail,
-        @NotBlank @Size(max = 30) String responsavelTelefone) { }
+        @Size(max = 200) String temperamento) { }

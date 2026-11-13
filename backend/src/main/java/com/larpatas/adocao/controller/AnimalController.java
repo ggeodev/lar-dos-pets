@@ -2,14 +2,16 @@ package com.larpatas.adocao.controller;
 
 import com.larpatas.adocao.dto.*;
 import com.larpatas.adocao.model.*;
+import com.larpatas.adocao.security.UsuarioLogado;
 import com.larpatas.adocao.service.AnimalService;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-/** Endpoints de animais. Base: /api/animais */
+/** Endpoints de animais. Base: /api/animais (leitura pública; cadastro exige login). */
 @RestController
 @RequestMapping("/api/animais")
 public class AnimalController {
@@ -36,10 +38,11 @@ public class AnimalController {
     @GetMapping("/{id}")
     public AnimalResponse buscar(@PathVariable Long id) { return service.buscar(id); }
 
-    /** Cadastro de novo animal. */
+    /** Cadastro de novo animal pela conta logada. */
     @PostMapping
-    public ResponseEntity<AnimalResponse> cadastrar(@Valid @RequestBody AnimalRequest request) {
-        AnimalResponse criado = service.cadastrar(request);
+    public ResponseEntity<AnimalResponse> cadastrar(@Valid @RequestBody AnimalRequest request,
+                                                    @AuthenticationPrincipal UsuarioLogado usuario) {
+        AnimalResponse criado = service.cadastrar(request, usuario.id());
         return ResponseEntity.created(URI.create("/api/animais/" + criado.id())).body(criado);
     }
 }

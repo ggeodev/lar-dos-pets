@@ -13,8 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class AnimalService {
 
     private final AnimalRepository animais;
+    private final UsuarioRepository usuarios;
 
-    public AnimalService(AnimalRepository animais) { this.animais = animais; }
+    public AnimalService(AnimalRepository animais, UsuarioRepository usuarios) {
+        this.animais = animais;
+        this.usuarios = usuarios;
+    }
 
     @Transactional(readOnly = true)
     public List<AnimalResponse> listar(Especie especie, Porte porte, Sexo sexo, String cidade, Boolean destaque) {
@@ -23,9 +27,11 @@ public class AnimalService {
                 .stream().map(AnimalResponse::de).toList();
     }
 
+    /** Perfil público. Animais já adotados continuam acessíveis, com status ADOTADO. */
     @Transactional(readOnly = true)
     public AnimalResponse buscar(Long id) {
-        return AnimalResponse.de(buscarEntidade(id));
+        return AnimalResponse.de(animais.findById(id).orElseThrow(
+                () -> new RecursoNaoEncontradoException("Animal " + id + " não encontrado.")));
     }
 
     @Transactional(readOnly = true)
@@ -34,7 +40,9 @@ public class AnimalService {
     }
 
     @Transactional
-    public AnimalResponse cadastrar(AnimalRequest r) {
+    public AnimalResponse cadastrar(AnimalRequest r, Long responsavelId) {
+        Usuario responsavel = usuarios.findById(responsavelId).orElseThrow(
+                () -> new RecursoNaoEncontradoException("Conta não encontrada."));
         Animal a = new Animal();
         a.setNome(r.nome().trim());
         a.setEspecie(r.especie());
@@ -45,15 +53,8 @@ public class AnimalService {
         a.setDescricao(r.descricao().trim());
         a.setSaude(r.saude().trim());
         a.setTemperamento(r.temperamento());
-        a.setResponsavelNome(r.responsavelNome().trim());
-        a.setResponsavelEmail(r.responsavelEmail().trim());
-        a.setResponsavelTelefone(r.responsavelTelefone().trim());
+        a.setResponsavel(responsavel);
         // destaque e status NÃO vêm do cliente: novo animal nasce disponível e sem destaque
         return AnimalResponse.de(animais.save(a));
-    }
-
-    Animal buscarEntidade(Long id) {
-        return animais.findById(id).orElseThrow(
-                () -> new RecursoNaoEncontradoException("Animal " + id + " não encontrado."));
     }
 }

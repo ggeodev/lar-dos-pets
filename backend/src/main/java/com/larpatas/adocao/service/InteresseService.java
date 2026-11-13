@@ -25,11 +25,15 @@ public class InteresseService {
         if (animal.getStatus() != StatusAnimal.DISPONIVEL) {
             throw new RegraDeNegocioException("Este animal não está mais disponível para adoção.");
         }
+        String email = r.email().trim();
+        if (interesses.existsByAnimalIdAndEmailIgnoreCase(animal.getId(), email)) {
+            throw new RegraDeNegocioException("Você já manifestou interesse neste animal com este e-mail.");
+        }
         Interesse i = new Interesse();
         i.setAnimal(animal);
         i.setNome(r.nome().trim());
         i.setCidade(r.cidade().trim());
-        i.setEmail(r.email().trim());
+        i.setEmail(email);
         i.setTelefone(r.telefone().trim());
         i.setMoradia(r.moradia());
         i.setPossuiOutrosAnimais(r.possuiOutrosAnimais());

@@ -3,6 +3,7 @@ package com.larpatas.adocao.repository;
 import com.larpatas.adocao.model.Animal;
 import com.larpatas.adocao.model.StatusAnimal;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +14,10 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
     /** Cidades com animais disponíveis (alimenta o filtro de localização). */
     @Query("select distinct a.cidade from Animal a where a.status = :status order by a.cidade")
     List<String> findCidadesPorStatus(@Param("status") StatusAnimal status);
+
+    /** Animais de um responsável (painel). */
+    List<Animal> findByResponsavelIdOrderByCriadoEmDesc(Long responsavelId);
+
+    /** Busca só se o animal pertencer ao responsável: garante que ninguém mexe no animal de outro. */
+    Optional<Animal> findByIdAndResponsavelId(Long id, Long responsavelId);
 }
