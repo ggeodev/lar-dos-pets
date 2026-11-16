@@ -10,9 +10,11 @@ GitHub Pages hospeda só o frontend. A API e o banco ficam em outro serviço (ex
 3. Edite `frontend/js/api.js` e troque API_PRODUCAO pelo endereço https do backend (termina em /api).
 4. GitHub: Settings > Pages > Source = "GitHub Actions" e rode o workflow na aba Actions.
 
-## Atualizando de uma versão anterior (sem login) para esta
-O modelo do banco mudou. Faça UMA vez:
-1. No Render, adicione a variável `DDL_AUTO` = `create` e faça o deploy.
-2. Abra /api/animais: devem aparecer os animais. (Isso apagou e recriou as tabelas.)
-3. **Apague a variável DDL_AUTO** e salve. Se ela ficar, cada reinício apaga todos os dados.
-Depois suba os arquivos novos para o GitHub (push) para o Pages e o Render atualizarem.
+## Atualizando (versões com Flyway e Swagger)
+1. No Render, em Environment, **apague a variável `DDL_AUTO`** se ela ainda existir (ela não é mais necessária).
+2. Suba os arquivos novos para o GitHub (push). O Render faz o deploy sozinho.
+3. Na primeira subida o Flyway "adota" as tabelas que já existem (nenhum dado é apagado) e passa a controlar o esquema.
+4. Confira: `/api/animais` mostra os animais e `/swagger-ui.html` abre a documentação.
+5. Se o deploy falhar com erro contendo "Schema-validation" nos Logs, defina `DDL_AUTO` = `none`, faça o deploy
+   (a API sobe sem conferir o esquema) e me envie o log do erro.
+Os testes do backend rodam no GitHub (aba Actions, workflow "Testes do backend"). Eles não afetam o deploy.

@@ -1,5 +1,7 @@
 package com.larpatas.adocao.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import com.larpatas.adocao.dto.*;
 import com.larpatas.adocao.model.*;
 import com.larpatas.adocao.security.UsuarioLogado;
@@ -12,6 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 /** Endpoints de animais. Base: /api/animais (leitura pública; cadastro exige login). */
+@Tag(name = "Animais")
 @RestController
 @RequestMapping("/api/animais")
 public class AnimalController {
@@ -21,6 +24,7 @@ public class AnimalController {
     public AnimalController(AnimalService service) { this.service = service; }
 
     /** Catálogo + filtros. Ex.: GET /api/animais?especie=GATO&porte=PEQUENO&cidade=Araraquara, SP */
+    @Operation(summary = "Catálogo de animais disponíveis, com filtros opcionais")
     @GetMapping
     public List<AnimalResponse> listar(@RequestParam(required = false) Especie especie,
                                        @RequestParam(required = false) Porte porte,
@@ -31,14 +35,17 @@ public class AnimalController {
     }
 
     /** Opções do filtro de localização. */
+    @Operation(summary = "Cidades com animais disponíveis (filtro de localização)")
     @GetMapping("/cidades")
     public List<String> cidades() { return service.cidades(); }
 
     /** Perfil de um animal. */
+    @Operation(summary = "Perfil de um animal")
     @GetMapping("/{id}")
     public AnimalResponse buscar(@PathVariable Long id) { return service.buscar(id); }
 
     /** Cadastro de novo animal pela conta logada. */
+    @Operation(summary = "Cadastrar animal na conta logada")
     @PostMapping
     public ResponseEntity<AnimalResponse> cadastrar(@Valid @RequestBody AnimalRequest request,
                                                     @AuthenticationPrincipal UsuarioLogado usuario) {

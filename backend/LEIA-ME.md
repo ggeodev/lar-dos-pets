@@ -7,10 +7,9 @@ Requisitos: Java 17+, Maven 3.9+ e PostgreSQL (com Docker ou instalado direto).
 2. API:   `mvn spring-boot:run`
 3. Teste: http://localhost:8080/api/animais
 
-**IMPORTANTE ao atualizar da versão sem login:** o modelo de dados mudou (animais agora pertencem a
-uma conta). Rode UMA vez com `DDL_AUTO=create`, o que apaga e recria as tabelas:
-`DDL_AUTO=create mvn spring-boot:run` (Linux/macOS) · no Windows (PowerShell): `$env:DDL_AUTO="create"; mvn spring-boot:run`.
-Nas execuções seguintes, rode normalmente. NUNCA deixe DDL_AUTO=create fixo: apaga os dados a cada início.
+**Banco e migrações:** o esquema é criado pelo Flyway (pasta `src/main/resources/db/migration`). Em um banco
+novo e vazio nada precisa ser feito: as tabelas são criadas ao iniciar. Se o seu banco LOCAL foi criado por
+versões antigas e dá erro ao iniciar, apague e recrie o banco (`DROP DATABASE adocao; CREATE DATABASE adocao OWNER adocao;`).
 
 No perfil `dev` (padrão), animais, contas e pedidos fictícios são carregados se o banco estiver vazio.
 Contas de teste (senha de todas: `demo1234`): patas@exemplo.com (ONG, tem Thor, Mel e Rex com pedidos),
@@ -57,8 +56,21 @@ curl -X POST http://localhost:8080/api/animais -H "Authorization: Bearer $TOKEN"
 | JWT_SECRET | Texto longo e aleatório (mín. 32 caracteres) que assina os logins. Sem ele, um segredo temporário é gerado a cada início e os logins caem quando a API reinicia |
 | JWT_HORAS | Validade do login em horas (padrão 12) |
 | CORS_ORIGINS | Sites autorizados, ex.: https://seu-usuario.github.io |
-| DDL_AUTO | `update` (padrão) ou `create` (apaga e recria, só uma vez) |
+| DDL_AUTO | Padrão `validate` (só confere). Use `none` apenas como socorro se o deploy falhar com "Schema-validation". Nunca `create`/`update` |
 | PORT | Porta (a hospedagem define) |
+
+## Testes automatizados
+`mvn test` roda 7 testes unitários do token e 13 testes de integração da API (cadastro, login, permissões,
+fluxo completo de adoção). Usam banco H2 em memória: não precisam de PostgreSQL nem Docker.
+No GitHub, o workflow "Testes do backend" (aba Actions) roda tudo a cada push na pasta `backend`.
+
+## Documentação interativa (Swagger)
+Com a API rodando: http://localhost:8080/swagger-ui.html (no Render: `https://SEU-SERVICO.onrender.com/swagger-ui.html`).
+Para rotas protegidas: faça login em POST /api/auth/login, copie o `token`, clique em **Authorize** e cole só o token.
+
+## Migrações do banco (Flyway)
+Mudanças no esquema entram como novos arquivos `V2__descricao.sql`, `V3__...`. Nunca edite uma migração já aplicada.
+Um banco que já tinha as tabelas (criadas antes do Flyway) é "adotado" automaticamente na primeira execução.
 
 ## Sem Docker: PostgreSQL instalado direto (Ubuntu/Debian)
 ```
@@ -77,4 +89,4 @@ mvn spring-boot:run
 ## Segurança: o que está feito e o que não está
 Feito: senhas com BCrypt, token JWT com validade, rotas protegidas, dono verificado em cada operação,
 contato dos interessados visível só ao responsável, e-mail/telefone fora das respostas públicas.
-Não feito: limite de tentativas de login, recuperação de senha, confirmação de e-mail, upload de fotos.
+Não feito: limite de tentativas de login, recuperação de senha, confirmação de e-mail, upload de fotos, paginação do catálogo.

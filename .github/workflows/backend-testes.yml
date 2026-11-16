@@ -1,0 +1,25 @@
+# Roda os testes automatizados do backend a cada push que altere a pasta backend.
+# Resultado: aba "Actions" do GitHub (✓ verde = passou, ✗ vermelho = falhou).
+name: Testes do backend
+
+on:
+  push:
+    paths: ["backend/**"]
+  pull_request:
+    paths: ["backend/**"]
+  workflow_dispatch:
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+      - run: mvn -B test
