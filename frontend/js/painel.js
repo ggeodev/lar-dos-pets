@@ -24,7 +24,7 @@ function iniciarPainel() {
                 <a href="animal.html?id=${a.id}" class="text-decoration-none">${esc(a.nome)}</a>
                 <span class="badge ${adotado ? "text-bg-secondary" : "text-bg-success"} ms-1">${adotado ? "Adotado" : "Disponível"}</span>
               </h2>
-              <p class="text-muted mb-0">${esc(ROTULOS.especie[a.especie] || a.especie)} · ${esc(a.cidade)}</p>
+              <div class="meta-linha mb-0"><span><i class="bi bi-tag"></i> ${esc(ROTULOS.especie[a.especie] || a.especie)}</span><span><i class="bi bi-geo-alt-fill"></i> ${esc(a.cidade)}</span></div>
             </div>
             <div class="d-flex flex-wrap gap-2">
               <button type="button" class="btn btn-mar btn-sm" data-acao="interesses" data-id="${a.id}">Ver interessados (${a.totalInteresses})</button>
@@ -46,7 +46,7 @@ function iniciarPainel() {
         <div class="d-flex justify-content-between flex-wrap gap-1">
           <strong>${esc(i.nome)}</strong><span class="text-muted small">${data}</span>
         </div>
-        <p class="mb-1 small text-muted">${esc(i.cidade)} · ${esc(ROTULOS.moradia[i.moradia] || i.moradia)} · ${i.possuiOutrosAnimais ? "Já tem outros animais" : "Não tem outros animais"}</p>
+        <div class="meta-linha"><span><i class="bi bi-geo-alt-fill"></i> ${esc(i.cidade)}</span><span><i class="bi bi-house-heart-fill"></i> ${esc(ROTULOS.moradia[i.moradia] || i.moradia)}</span><span>${i.possuiOutrosAnimais ? "Já tem outros animais" : "Não tem outros animais"}</span></div>
         <p class="mb-2">${esc(i.motivo)}</p>
         <div class="d-flex flex-wrap gap-2">
           <a class="btn btn-sm btn-sol" target="_blank" rel="noopener" href="https://wa.me/${numero}?text=${encodeURIComponent(msg)}">WhatsApp</a>

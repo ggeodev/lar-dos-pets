@@ -20,4 +20,6 @@ public interface AnimalRepository extends JpaRepository<Animal, Long>, JpaSpecif
 
     /** Busca só se o animal pertencer ao responsável: garante que ninguém mexe no animal de outro. */
     Optional<Animal> findByIdAndResponsavelId(Long id, Long responsavelId);
+
+    long countByStatus(StatusAnimal status);
 }

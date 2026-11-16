@@ -20,6 +20,7 @@ maria@exemplo.com, joao@exemplo.com, vet@exemplo.com.
 |---|---|---|---|
 | GET | /api/animais | público | Catálogo. Filtros: especie, porte, sexo, cidade, destaque |
 | GET | /api/animais/cidades | público | Opções do filtro de localização |
+| GET | /api/animais/estatisticas | público | Contagens para a página inicial (disponíveis, adotados, cidades) |
 | GET | /api/animais/{id} | público | Perfil (animais adotados aparecem com status ADOTADO) |
 | POST | /api/interesses | público | Formulário de interesse (409 se já pediu com o mesmo e-mail) |
 | POST | /api/auth/registro | público | Criar conta (devolve token) |
@@ -60,7 +61,7 @@ curl -X POST http://localhost:8080/api/animais -H "Authorization: Bearer $TOKEN"
 | PORT | Porta (a hospedagem define) |
 
 ## Testes automatizados
-`mvn test` roda 7 testes unitários do token e 13 testes de integração da API (cadastro, login, permissões,
+`mvn test` roda 7 testes unitários do token e 14 testes de integração da API (cadastro, login, permissões,
 fluxo completo de adoção). Usam banco H2 em memória: não precisam de PostgreSQL nem Docker.
 No GitHub, o workflow "Testes do backend" (aba Actions) roda tudo a cada push na pasta `backend`.
 

@@ -34,6 +34,8 @@ function adaptarAnimal(r) {
   return {
     id: r.id,
     nome: r.nome,
+    especieCodigo: r.especie,
+    fotoUrl: r.fotoUrl,
     especie: ROTULOS.especie[r.especie] || r.especie,
     porte: ROTULOS.porte[r.porte] || r.porte,
     sexo: ROTULOS.sexo[r.sexo] || r.sexo,
@@ -107,6 +109,7 @@ async function listarAnimais(filtros = {}) {
 }
 async function buscarAnimal(id)       { return adaptarAnimal(await chamarApi(`/animais/${encodeURIComponent(id)}`)); }
 async function listarCidades()        { return chamarApi("/animais/cidades"); }
+async function estatisticas()         { return chamarApi("/animais/estatisticas"); }
 async function enviarInteresse(dados) { return chamarApi("/interesses", { metodo: "POST", corpo: dados }); }
 
 /* ---------- Conta ---------- */

@@ -34,6 +34,11 @@ public class AnimalController {
         return service.listar(especie, porte, sexo, cidade, destaque);
     }
 
+    /** Números da página inicial (animais disponíveis, adotados e cidades). */
+    @Operation(summary = "Estatísticas públicas da plataforma")
+    @GetMapping("/estatisticas")
+    public EstatisticasResponse estatisticas() { return service.estatisticas(); }
+
     /** Opções do filtro de localização. */
     @Operation(summary = "Cidades com animais disponíveis (filtro de localização)")
     @GetMapping("/cidades")

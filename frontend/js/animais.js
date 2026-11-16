@@ -24,7 +24,7 @@ async function aplicarFiltros() {
       cidade: f.cidade
     });
     if (busca !== ultimaBusca) return;
-    listaAnimais.innerHTML = animais.map(criarCardAnimal).join("");
+    listaAnimais.innerHTML = animais.map(a => criarCardAnimal(a)).join("");
     contador.textContent = `${animais.length} ${animais.length === 1 ? "animal encontrado" : "animais encontrados"}`;
     vazio.classList.toggle("d-none", animais.length > 0);
   } catch (e) {

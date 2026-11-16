@@ -4,51 +4,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Criar conta — Lar de Patas</title>
+  <meta name="description" content="Plataforma de adoção responsável: conheça animais que esperam por um lar e fale direto com quem cuida deles.">
+  <meta name="theme-color" content="#1f6f78">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231f6f78'/%3E%3Cg fill='%23f4c542'%3E%3Cellipse cx='32' cy='42' rx='13' ry='10.5'/%3E%3Ccircle cx='16.5' cy='29' r='5.5'/%3E%3Ccircle cx='26.5' cy='19.5' r='5.5'/%3E%3Ccircle cx='37.5' cy='19.5' r='5.5'/%3E%3Ccircle cx='47.5' cy='29' r='5.5'/%3E%3C/g%3E%3C/svg%3E">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Figtree:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
 </head>
 <body data-base="../" data-pagina="conta">
   <div id="navbar"></div>
   <main class="secao">
-    <div class="container" style="max-width: 560px;">
-      <h1>Criar conta de responsável</h1>
-      <p class="text-muted">Para pessoas e ONGs que querem divulgar animais para adoção. Seu e-mail e telefone não aparecem publicamente: só você vê os pedidos de adoção recebidos.</p>
-      <form id="form-conta" class="cartao-form" novalidate>
-        <div class="mb-3">
-          <label for="nome" class="form-label">Nome ou organização</label>
-          <input id="nome" type="text" class="form-control" autocomplete="name" maxlength="100" required>
-          <div class="invalid-feedback">Informe seu nome.</div>
-        </div>
-        <div class="row g-3 mb-3">
-          <div class="col-md-6">
-            <label for="email" class="form-label">E-mail</label>
-            <input id="email" type="email" class="form-control" autocomplete="username" required>
-            <div class="invalid-feedback">Informe um e-mail válido.</div>
-          </div>
-          <div class="col-md-6">
-            <label for="telefone" class="form-label">Telefone / WhatsApp</label>
-            <input id="telefone" type="tel" class="form-control" autocomplete="tel" required>
-            <div class="invalid-feedback">Informe um telefone.</div>
+    <div class="container" style="max-width: 1000px;">
+      <div class="row g-4 align-items-stretch">
+        <div class="col-lg-5">
+          <div class="painel-lateral">
+            <h2 class="h3 mb-3">Dê visibilidade a quem precisa de um lar</h2>
+            <p>Com uma conta de responsável, pessoas e ONGs divulgam animais e acompanham os pedidos de adoção.</p>
+            <ul class="list-unstyled mb-3">
+              <li class="mb-2"><i class="bi bi-check-circle-fill"></i> Cadastre quantos animais precisar</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill"></i> Receba os pedidos em um painel só seu</li>
+              <li><i class="bi bi-check-circle-fill"></i> Seu e-mail e telefone não aparecem publicamente</li>
+            </ul>
+            <p class="mb-0">A conta é gratuita.</p>
           </div>
         </div>
-        <div class="row g-3 mb-4">
-          <div class="col-md-6">
-            <label for="senha" class="form-label">Senha</label>
-            <input id="senha" type="password" class="form-control" autocomplete="new-password" minlength="8" maxlength="72" required>
-            <div class="invalid-feedback">Use pelo menos 8 caracteres.</div>
-          </div>
-          <div class="col-md-6">
-            <label for="confirmar" class="form-label">Confirmar senha</label>
-            <input id="confirmar" type="password" class="form-control" autocomplete="new-password" required>
-            <div class="invalid-feedback">As senhas precisam ser iguais.</div>
-          </div>
+        <div class="col-lg-7">
+          <h1 class="h2 mb-3">Criar conta de responsável</h1>
+          <form id="form-conta" class="cartao-form" novalidate>
+            <div class="mb-3">
+              <label for="nome" class="form-label">Nome ou organização</label>
+              <input id="nome" type="text" class="form-control" autocomplete="name" maxlength="100" required>
+              <div class="invalid-feedback">Informe seu nome.</div>
+            </div>
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="email" class="form-label">E-mail</label>
+                <input id="email" type="email" class="form-control" autocomplete="username" required>
+                <div class="invalid-feedback">Informe um e-mail válido.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="telefone" class="form-label">Telefone / WhatsApp</label>
+                <input id="telefone" type="tel" class="form-control" autocomplete="tel" required>
+                <div class="invalid-feedback">Informe um telefone.</div>
+              </div>
+            </div>
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="senha" class="form-label">Senha</label>
+                <input id="senha" type="password" class="form-control" autocomplete="new-password" minlength="8" maxlength="72" required>
+                <div class="invalid-feedback">Use pelo menos 8 caracteres.</div>
+              </div>
+              <div class="col-md-6">
+                <label for="confirmar" class="form-label">Confirmar senha</label>
+                <input id="confirmar" type="password" class="form-control" autocomplete="new-password" required>
+                <div class="invalid-feedback">As senhas precisam ser iguais.</div>
+              </div>
+            </div>
+            <div id="erro-envio" class="alert alert-danger d-none" role="alert"></div>
+            <button type="submit" class="btn btn-sol btn-lg w-100">Criar conta</button>
+          </form>
+          <p class="text-center mt-3 mb-0">Já tem conta? <a href="entrar.html" class="fw-bold">Entrar</a></p>
         </div>
-        <div id="erro-envio" class="alert alert-danger d-none" role="alert"></div>
-        <button type="submit" class="btn btn-sol btn-lg w-100">Criar conta</button>
-      </form>
-      <p class="text-center mt-3">Já tem conta? <a href="entrar.html">Entrar</a></p>
+      </div>
     </div>
   </main>
   <div id="rodape"></div>

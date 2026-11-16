@@ -6,13 +6,31 @@ const alertaErro = document.getElementById("erro-envio");
 const botao = form.querySelector("button[type=submit]");
 const valor = id => document.getElementById(id).value.trim();
 
-// Lista de animais disponíveis; pré-seleciona se vier ?id= na URL
+// Lista de animais disponíveis; pré-seleciona se vier ?id= na URL e mostra um resumo do escolhido
+const resumo = document.getElementById("resumo-animal");
+let disponiveis = [];
+
+function mostrarResumo() {
+  const a = disponiveis.find(x => String(x.id) === select.value);
+  resumo.innerHTML = a ? `
+    <div class="resumo-animal">
+      ${fotoAnimal(a)}
+      <div>
+        <strong class="fs-5">${esc(a.nome)}</strong>
+        <div class="meta-linha mb-0"><span><i class="bi bi-geo-alt-fill"></i> ${esc(a.cidade)}</span><span>${esc(a.especie)}, ${esc(a.idade)}</span></div>
+      </div>
+    </div>` : "";
+}
+
 listarAnimais().then(animais => {
+  disponiveis = animais;
   animais.forEach(a => select.insertAdjacentHTML("beforeend",
     `<option value="${a.id}">${esc(a.nome)} (${esc(a.especie)}, ${esc(a.cidade)})</option>`));
   const idUrl = new URLSearchParams(location.search).get("id");
   if (idUrl) select.value = idUrl;
+  mostrarResumo();
 }).catch(e => exibirErroForm(alertaErro, e));
+select.addEventListener("change", mostrarResumo);
 
 form.addEventListener("submit", async e => {
   e.preventDefault();

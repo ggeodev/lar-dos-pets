@@ -99,6 +99,15 @@ class ApiIntegracaoTest {
     }
 
     @Test
+    @DisplayName("estatísticas são públicas e trazem só contagens")
+    void estatisticasPublicas() throws Exception {
+        mvc.perform(get("/api/animais/estatisticas")).andExpect(status().isOk())
+           .andExpect(jsonPath("$.disponiveis").isNumber())
+           .andExpect(jsonPath("$.adotados").isNumber())
+           .andExpect(jsonPath("$.cidades").isNumber());
+    }
+
+    @Test
     @DisplayName("animal inexistente responde 404")
     void animalInexistente() throws Exception {
         mvc.perform(get("/api/animais/999999")).andExpect(status().isNotFound());

@@ -1,82 +1,163 @@
 /* ==========================================================
-   style.css — estilos próprios do projeto (sobre o Bootstrap)
-   Para trocar a identidade visual, altere as variáveis abaixo.
+   style.css — identidade visual do Lar de Patas
+   Para trocar cores e fontes, altere só as variáveis abaixo.
+   Estrutura: 1 Base · 2 Navegação · 3 Botões · 4 Home · 5 Animais
+              6 Perfil · 7 Formulários · 8 Rodapé · 9 Acessibilidade
    ========================================================== */
+
+/* ---------- 1. Base ---------- */
 :root {
-  --cor-tinta: #12303b;      /* texto e fundos escuros */
-  --cor-mar: #1f6f78;        /* cor principal */
-  --cor-mar-escuro: #165259;
-  --cor-sol: #f2c94c;        /* cor de destaque (botões principais) */
-  --cor-neblina: #eef5f4;    /* fundo de seções claras */
-  --cor-borda: #d3e2e0;
+  --tinta: #0e3038;          /* texto e rodapé */
+  --mar: #1f6f78;            /* cor principal (teal) */
+  --mar-escuro: #165259;
+  --mar-claro: #d9ecea;
+  --nevoa: #f2f7f6;          /* fundo de seções claras */
+  --sol: #f4c542;            /* ação principal (amarelo) */
+  --sol-escuro: #e3b02a;
+  --coral: #e4572e;          /* detalhes: coleira, coração */
+  --borda: #d6e4e2;
+  --suave: #4d6269;          /* texto secundário */
   --fonte-titulo: "Bricolage Grotesque", system-ui, sans-serif;
-  --fonte-corpo: "Nunito Sans", system-ui, sans-serif;
+  --fonte-corpo: "Figtree", system-ui, sans-serif;
+  --sombra: 0 .75rem 2rem rgba(14, 48, 56, .10);
 }
+html { scroll-behavior: smooth; }
+body { font-family: var(--fonte-corpo); color: var(--tinta); background: #fff; font-size: 1.05rem; line-height: 1.6; }
+h1, h2, h3, h4, h5 { font-family: var(--fonte-titulo); font-weight: 700; letter-spacing: -.02em; line-height: 1.15; }
+h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+a { color: var(--mar); }
+a:hover { color: var(--mar-escuro); }
+.text-muted { color: var(--suave) !important; }
+.limite { max-width: 38rem; }                         /* linhas de leitura curtas */
+.secao { padding: 4.5rem 0; }
+.secao-clara { background: var(--nevoa); }
+.texto-livre { white-space: pre-line; }                /* respeita quebras de linha digitadas */
 
-body { font-family: var(--fonte-corpo); color: var(--cor-tinta); background: #fff; }
-h1, h2, h3, h4, h5, .navbar-brand { font-family: var(--fonte-titulo); font-weight: 700; letter-spacing: -0.01em; }
+/* ---------- 2. Navegação ---------- */
+.navbar-adocao { background: #fff; border-bottom: 1px solid var(--borda); position: sticky; top: 0; z-index: 1030; }
+.navbar-adocao .navbar-brand { display: flex; align-items: center; gap: .6rem; color: var(--tinta); font-size: 1.3rem; }
+.logo-marca { width: 2.2rem; height: 2.2rem; border-radius: .7rem; background: var(--mar); color: var(--sol); display: grid; place-items: center; }
+.navbar-adocao .nav-link { color: var(--tinta); font-weight: 600; position: relative; padding-inline: .8rem; }
+.navbar-adocao .nav-link:hover { color: var(--mar); }
+.navbar-adocao .nav-link.active::after { content: ""; position: absolute; left: .8rem; right: .8rem; bottom: .15rem; height: 3px; border-radius: 3px; background: var(--sol); }
+.navbar-adocao .btn-link.nav-link { text-decoration: none; }
 
-/* Acessibilidade: foco visível no teclado */
-:focus-visible { outline: 3px solid var(--cor-sol); outline-offset: 2px; }
+/* ---------- 3. Botões ---------- */
+.btn { border-radius: 2rem; font-weight: 700; padding: .6rem 1.4rem; }
+.btn-lg { padding: .8rem 1.9rem; }
+.btn-sm { padding: .35rem 1rem; }
+.btn-sol { background: var(--sol); color: var(--tinta); border: 0; }
+.btn-sol:hover, .btn-sol:focus-visible { background: var(--sol-escuro); color: var(--tinta); }
+.btn-mar { background: var(--mar); color: #fff; border: 0; }
+.btn-mar:hover { background: var(--mar-escuro); color: #fff; }
+.btn-contorno-claro { border: 2px solid rgba(255, 255, 255, .7); color: #fff; }
+.btn-contorno-claro:hover { background: #fff; color: var(--mar-escuro); }
+.btn-outline-dark { border-width: 2px; }
 
-/* ---------- Navbar ---------- */
-.navbar-adocao { background: var(--cor-tinta); }
-.navbar-adocao .nav-link { color: #cfe3e0; }
-.navbar-adocao .nav-link:hover,
-.navbar-adocao .nav-link.active { color: #fff; }
-.navbar-adocao .navbar-brand { color: #fff; }
+/* ---------- 4. Home ---------- */
+.hero { background: var(--mar); color: #fff; padding: 4.5rem 0; overflow: hidden; position: relative; }
+.hero::before {            /* patinhas bem discretas ao fundo */
+  content: ""; position: absolute; inset: 0; opacity: .07; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 64 64' fill='white'%3E%3Cg transform='translate(8 8) scale(.6)'%3E%3Cellipse cx='32' cy='42' rx='13' ry='10.5'/%3E%3Ccircle cx='16.5' cy='29' r='5.5'/%3E%3Ccircle cx='26.5' cy='19.5' r='5.5'/%3E%3Ccircle cx='37.5' cy='19.5' r='5.5'/%3E%3Ccircle cx='47.5' cy='29' r='5.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 160px;
+}
+.hero .container { position: relative; }
+.hero p.lead { color: rgba(255, 255, 255, .92); max-width: 34rem; font-size: 1.2rem; }
+.hero-numeros { color: #fff; font-size: 1.05rem; max-width: 34rem; border-left: 4px solid var(--sol); padding-left: 1rem; }
+.hero-numeros strong { font-family: var(--fonte-titulo); font-size: 1.5rem; color: var(--sol); }
 
-/* ---------- Botões ---------- */
-.btn-sol { background: var(--cor-sol); color: var(--cor-tinta); font-weight: 700; border: 0; }
-.btn-sol:hover { background: #e6b92f; color: var(--cor-tinta); }
-.btn-mar { background: var(--cor-mar); color: #fff; font-weight: 700; border: 0; }
-.btn-mar:hover { background: var(--cor-mar-escuro); color: #fff; }
+/* Retratos com coleira: o elemento marcante da página */
+.hero-arte { position: relative; aspect-ratio: 1; max-width: 27rem; margin-inline: auto; }
+.hero-pet { position: absolute; border-radius: 50%; overflow: hidden; border: 6px solid #fff; box-shadow: var(--sombra); }
+.hero-pet svg { display: block; width: 100%; height: 100%; }
+.hero-pet.p1 { width: 66%; height: 66%; left: 17%; top: 15%; }
+.hero-pet.p2 { width: 36%; height: 36%; right: 0; top: 0; }
+.hero-pet.p3 { width: 34%; height: 34%; left: 0; bottom: 3%; }
+.hero-selo { position: absolute; right: 2%; bottom: 8%; background: var(--sol); color: var(--tinta); font-weight: 800; border-radius: 2rem; padding: .5rem 1rem; box-shadow: var(--sombra); }
+.hero-selo .bi { color: var(--coral); }
 
-/* ---------- Hero (página inicial) ---------- */
-.hero { background: var(--cor-tinta); color: #fff; padding: 5rem 0; }
-.hero h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.05; }
-.hero p { color: #cfe3e0; max-width: 34rem; }
-.hero-vitrine { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
-.hero-vitrine .foto-animal { aspect-ratio: 1; border-radius: 1.25rem; font-size: 4rem; }
-.hero-vitrine .foto-animal:nth-child(2) { transform: translateY(1.5rem); }
+.valor { display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.6rem; }
+.icone-circulo { flex: 0 0 3rem; width: 3rem; height: 3rem; border-radius: 50%; background: var(--mar-claro); color: var(--mar-escuro); display: grid; place-items: center; font-size: 1.3rem; }
+.valor h3 { font-size: 1.25rem; margin-bottom: .2rem; }
+.valor p { margin: 0; color: var(--suave); }
 
-/* ---------- Seções ---------- */
-.secao { padding: 4rem 0; }
-.secao-clara { background: var(--cor-neblina); }
+.lista-compromissos { list-style: none; padding: 0; margin: 0; }
+.lista-compromissos li { display: flex; gap: .75rem; padding: .85rem 0; border-bottom: 1px solid var(--borda); }
+.lista-compromissos .bi { color: var(--mar); font-size: 1.25rem; margin-top: .1rem; }
+.lista-compromissos strong { display: block; }
 
-/* ---------- Foto fictícia (emoji sobre cor) ----------
-   Troque por <img> reais quando houver upload de fotos. */
-.foto-animal { display: flex; align-items: center; justify-content: center; font-size: 5rem; }
+.passos { counter-reset: passo; list-style: none; padding: 0; margin: 0; }   /* aqui a numeração faz sentido: é uma sequência */
+.passos li { counter-increment: passo; position: relative; padding-left: 3.6rem; margin-bottom: 1.5rem; }
+.passos li::before { content: counter(passo); position: absolute; left: 0; top: 0; width: 2.6rem; height: 2.6rem; border-radius: 50%; background: var(--sol); color: var(--tinta); display: grid; place-items: center; font-family: var(--fonte-titulo); font-weight: 800; font-size: 1.2rem; }
+.passos h3 { font-size: 1.2rem; margin-bottom: .15rem; }
+.passos p { margin: 0; color: var(--suave); }
+
+.accordion { --bs-accordion-border-color: var(--borda); --bs-accordion-active-bg: var(--mar-claro); --bs-accordion-active-color: var(--tinta); --bs-accordion-btn-focus-box-shadow: 0 0 0 .25rem rgba(31, 111, 120, .25); }
+.accordion-button { font-weight: 700; }
+
+.faixa-cta { background: var(--tinta); color: #fff; padding: 3.5rem 0; }
+.faixa-cta p { color: rgba(255, 255, 255, .85); max-width: 34rem; }
+
+/* ---------- 5. Animais (catálogo e cartões) ---------- */
+.topo-pagina { background: var(--nevoa); border-bottom: 1px solid var(--borda); padding: 2.5rem 0; }
+.painel-filtros { background: var(--nevoa); border: 1px solid var(--borda); border-radius: 1.25rem; padding: 1.25rem; }
+@media (min-width: 992px) { .painel-filtros { position: sticky; top: 5rem; } }
+
+/* Ilustração do animal (troque por <img> quando houver fotos reais) */
+.foto-animal { display: flex; align-items: flex-end; justify-content: center; overflow: hidden; }
+.foto-animal svg { height: 100%; width: auto; max-width: 100%; }
+.foto-animal .foto-real { width: 100%; height: 100%; object-fit: cover; }
 .foto-animal.tom-0 { background: #cfe8e4; }
-.foto-animal.tom-1 { background: #fbe9b0; }
+.foto-animal.tom-1 { background: #fbe7ae; }
 .foto-animal.tom-2 { background: #d9e3f4; }
-.foto-animal.tom-3 { background: #f6d9d2; }
+.foto-animal.tom-3 { background: #f7d9d0; }
 
-/* ---------- Card de animal ---------- */
-.card-animal { border: 1px solid var(--cor-borda); border-radius: 1rem; overflow: hidden; height: 100%; }
-.card-animal .foto-animal { height: 180px; }
-.card-animal .card-title a { color: var(--cor-tinta); text-decoration: none; }
-.card-animal .card-title a:hover { color: var(--cor-mar); }
-.etiqueta { background: var(--cor-neblina); color: var(--cor-mar-escuro); font-weight: 600; font-size: .8rem; border-radius: 2rem; padding: .2rem .65rem; display: inline-block; }
+.card-animal { border: 1px solid var(--borda); border-radius: 1.25rem; overflow: hidden; height: 100%; background: #fff; transition: border-color .2s; }
+.card-animal:hover { border-color: var(--mar); }
+.card-animal .foto-animal { aspect-ratio: 4 / 3; }
+.card-animal .card-title a { color: var(--tinta); text-decoration: none; }
+.icone-sexo { color: var(--mar); font-size: 1.2rem; }
+.local { color: var(--suave); font-size: .95rem; margin-bottom: .8rem; }
+.local .bi { color: var(--coral); }
+.etiqueta { background: var(--mar-claro); color: var(--mar-escuro); font-weight: 600; font-size: .85rem; border-radius: 2rem; padding: .15rem .7rem; display: inline-block; }
 
-/* ---------- Catálogo ---------- */
-.painel-filtros { background: var(--cor-neblina); border-radius: 1rem; padding: 1.25rem; }
-@media (min-width: 992px) { .painel-filtros { position: sticky; top: 1rem; } }
+/* ---------- 6. Perfil do animal ---------- */
+.perfil-foto { aspect-ratio: 1; max-height: 31rem; width: 100%; border-radius: 1.75rem; }
+.fato { display: flex; gap: .75rem; align-items: center; background: var(--nevoa); border-radius: .9rem; padding: .7rem 1rem; height: 100%; }
+.fato .bi { color: var(--mar); font-size: 1.4rem; }
+.fato span { display: block; font-size: .85rem; color: var(--suave); line-height: 1.2; }
+.fato strong { line-height: 1.2; }
+.bloco-info { border-left: 4px solid var(--mar-claro); padding-left: 1rem; margin-bottom: 1.2rem; }
+.bloco-info h2 { font-size: 1.05rem; margin-bottom: .2rem; font-family: var(--fonte-corpo); font-weight: 700; letter-spacing: 0; }
+.caixa-adocao { background: #fff8de; border: 2px solid var(--sol); border-radius: 1.25rem; padding: 1.4rem; }
+.caixa-adocao ul { padding-left: 1.2rem; }
 
-/* ---------- Perfil ---------- */
-.perfil-foto { height: 340px; border-radius: 1.25rem; font-size: 9rem; }
-.ficha dt { font-weight: 600; color: var(--cor-mar-escuro); }
-.ficha dd { margin-bottom: .75rem; }
-.caixa-adocao { border: 2px solid var(--cor-sol); border-radius: 1rem; padding: 1.25rem; background: #fffbea; }
+/* ---------- 7. Formulários e páginas de conta ---------- */
+.cartao-form { background: #fff; border: 1px solid var(--borda); border-radius: 1.25rem; padding: 2rem; box-shadow: var(--sombra); }
+.form-control, .form-select { border-radius: .6rem; padding: .65rem .9rem; border-color: #b9cfcc; }
+.form-control:focus, .form-select:focus { border-color: var(--mar); box-shadow: 0 0 0 .25rem rgba(31, 111, 120, .2); }
+.form-label { font-weight: 600; }
+.painel-lateral { background: var(--mar); color: #fff; border-radius: 1.25rem; padding: 2.25rem; height: 100%; }
+.painel-lateral p, .painel-lateral li { color: rgba(255, 255, 255, .92); }
+.painel-lateral .bi { color: var(--sol); }
+.resumo-animal { display: flex; gap: 1rem; align-items: center; background: var(--nevoa); border-radius: 1rem; padding: .75rem; }
+.resumo-animal .foto-animal { width: 5rem; height: 5rem; flex: 0 0 5rem; border-radius: .8rem; }
+.meta-linha { display: flex; flex-wrap: wrap; gap: .3rem 1.1rem; color: var(--suave); font-size: .95rem; margin-bottom: .5rem; }
+.meta-linha .bi { color: var(--mar); }
 
-/* ---------- Formulários ---------- */
-.cartao-form { border: 1px solid var(--cor-borda); border-radius: 1rem; padding: 2rem; }
-.aviso-demo { background: #fffbea; border-left: 4px solid var(--cor-sol); padding: .75rem 1rem; border-radius: .5rem; font-size: .9rem; }
+/* ---------- 8. Rodapé ---------- */
+.rodape { background: var(--tinta); color: rgba(255, 255, 255, .8); padding: 3.5rem 0 1.5rem; }
+.rodape h2 { color: #fff; font-size: 1.05rem; font-family: var(--fonte-corpo); font-weight: 700; letter-spacing: 0; }
+.rodape a { color: rgba(255, 255, 255, .85); text-decoration: none; }
+.rodape a:hover { color: var(--sol); }
+.rodape ul { list-style: none; padding: 0; margin: 0; }
+.rodape li { margin-bottom: .4rem; }
+.rodape hr { border-color: rgba(255, 255, 255, .15); }
+.rodape .logo-marca { background: var(--sol); color: var(--tinta); }
 
-/* ---------- Rodapé ---------- */
-.rodape { background: var(--cor-tinta); color: #cfe3e0; padding: 2.5rem 0; }
-.rodape a { color: #fff; }
-
-/* Home: 4 cards por linha em telas largas (o card base usa 3 colunas) */
-#lista-destaques > .col-xl-4 { flex: 0 0 auto; }
-@media (min-width: 1200px) { #lista-destaques > .col-xl-4 { width: 25%; } }
+/* ---------- 9. Acessibilidade ---------- */
+:focus-visible { outline: 3px solid var(--coral); outline-offset: 2px; }
+.pular-conteudo { position: absolute; left: -999px; top: .5rem; z-index: 2000; background: var(--sol); color: var(--tinta); padding: .5rem 1rem; border-radius: .5rem; font-weight: 700; }
+.pular-conteudo:focus { left: .5rem; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }

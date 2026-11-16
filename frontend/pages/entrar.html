@@ -4,32 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Entrar — Lar de Patas</title>
+  <meta name="description" content="Plataforma de adoção responsável: conheça animais que esperam por um lar e fale direto com quem cuida deles.">
+  <meta name="theme-color" content="#1f6f78">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%231f6f78'/%3E%3Cg fill='%23f4c542'%3E%3Cellipse cx='32' cy='42' rx='13' ry='10.5'/%3E%3Ccircle cx='16.5' cy='29' r='5.5'/%3E%3Ccircle cx='26.5' cy='19.5' r='5.5'/%3E%3Ccircle cx='37.5' cy='19.5' r='5.5'/%3E%3Ccircle cx='47.5' cy='29' r='5.5'/%3E%3C/g%3E%3C/svg%3E">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Figtree:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link href="../css/style.css" rel="stylesheet">
 </head>
 <body data-base="../" data-pagina="entrar">
   <div id="navbar"></div>
   <main class="secao">
-    <div class="container" style="max-width: 460px;">
-      <h1>Entrar</h1>
-      <p class="text-muted">Área para responsáveis por animais: cadastre animais e acompanhe os interessados.</p>
-      <form id="form-entrar" class="cartao-form" novalidate>
-        <div class="mb-3">
-          <label for="email" class="form-label">E-mail</label>
-          <input id="email" type="email" class="form-control" autocomplete="username" required>
-          <div class="invalid-feedback">Informe um e-mail válido.</div>
+    <div class="container" style="max-width: 960px;">
+      <div class="row g-4 align-items-stretch">
+        <div class="col-lg-5 order-lg-1 order-2">
+          <div class="painel-lateral">
+            <h2 class="h3 mb-3">Bem-vindo de volta</h2>
+            <p>Entre para acompanhar quem quer adotar os seus animais.</p>
+            <ul class="list-unstyled mb-0">
+              <li class="mb-2"><i class="bi bi-check-circle-fill"></i> Veja os pedidos recebidos em cada animal</li>
+              <li class="mb-2"><i class="bi bi-check-circle-fill"></i> Chame os interessados por WhatsApp ou e-mail</li>
+              <li><i class="bi bi-check-circle-fill"></i> Marque como adotado quando encontrar a família</li>
+            </ul>
+          </div>
         </div>
-        <div class="mb-4">
-          <label for="senha" class="form-label">Senha</label>
-          <input id="senha" type="password" class="form-control" autocomplete="current-password" required>
-          <div class="invalid-feedback">Informe a senha.</div>
+        <div class="col-lg-7 order-lg-2 order-1">
+          <h1 class="h2 mb-3">Entrar</h1>
+          <form id="form-entrar" class="cartao-form" novalidate>
+            <div class="mb-3">
+              <label for="email" class="form-label">E-mail</label>
+              <input id="email" type="email" class="form-control" autocomplete="username" required>
+              <div class="invalid-feedback">Informe um e-mail válido.</div>
+            </div>
+            <div class="mb-4">
+              <label for="senha" class="form-label">Senha</label>
+              <input id="senha" type="password" class="form-control" autocomplete="current-password" required>
+              <div class="invalid-feedback">Informe a senha.</div>
+            </div>
+            <div id="erro-envio" class="alert alert-danger d-none" role="alert"></div>
+            <button type="submit" class="btn btn-sol btn-lg w-100">Entrar</button>
+          </form>
+          <p class="text-center mt-3 mb-0">Ainda não tem conta? <a href="criar-conta.html" class="fw-bold">Criar conta</a></p>
         </div>
-        <div id="erro-envio" class="alert alert-danger d-none" role="alert"></div>
-        <button type="submit" class="btn btn-sol btn-lg w-100">Entrar</button>
-      </form>
-      <p class="text-center mt-3">Ainda não tem conta? <a href="criar-conta.html">Criar conta</a></p>
+      </div>
     </div>
   </main>
   <div id="rodape"></div>

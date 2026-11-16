@@ -39,6 +39,14 @@ public class AnimalService {
         return animais.findCidadesPorStatus(StatusAnimal.DISPONIVEL);
     }
 
+    @Transactional(readOnly = true)
+    public EstatisticasResponse estatisticas() {
+        return new EstatisticasResponse(
+                animais.countByStatus(StatusAnimal.DISPONIVEL),
+                animais.countByStatus(StatusAnimal.ADOTADO),
+                animais.findCidadesPorStatus(StatusAnimal.DISPONIVEL).size());
+    }
+
     @Transactional
     public AnimalResponse cadastrar(AnimalRequest r, Long responsavelId) {
         Usuario responsavel = usuarios.findById(responsavelId).orElseThrow(
