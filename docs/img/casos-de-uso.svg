@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="740" viewBox="0 0 1000 740" font-family="DejaVu Sans, Arial, sans-serif" font-size="13">
+<rect width="1000" height="740" fill="white"/>
+<rect x="170" y="40" width="660" height="620" rx="14" fill="#f2f7f6" stroke="#1f6f78" stroke-width="2"/>
+<text x="500" y="72" text-anchor="middle" font-size="16" font-weight="bold" fill="#0e3038">Sistema Lar de Patas</text>
+<g stroke="#0e3038" stroke-width="2.4" fill="none" stroke-linecap="round"><circle cx="85" cy="298" r="13" fill="white"/><path d="M85 311V348M65 322H105M85 348L69 378M85 348L101 378"/></g>
+<text x="85" y="400" text-anchor="middle" font-weight="bold" fill="#0e3038">Visitante</text>
+<text x="85" y="417" text-anchor="middle" font-size="12" fill="#4d6269">quem quer adotar</text>
+<g stroke="#0e3038" stroke-width="2.4" fill="none" stroke-linecap="round"><circle cx="915" cy="298" r="13" fill="white"/><path d="M915 311V348M895 322H935M915 348L899 378M915 348L931 378"/></g>
+<text x="915" y="400" text-anchor="middle" font-weight="bold" fill="#0e3038">Responsável</text>
+<text x="915" y="417" text-anchor="middle" font-size="12" fill="#4d6269">conta logada</text>
+<ellipse cx="335" cy="220" rx="140" ry="34" fill="#d9ecea" stroke="#1f6f78" stroke-width="1.8"/>
+<text text-anchor="middle" fill="#0e3038"><tspan x="335" y="216" font-weight="bold">UC01 Consultar catálogo</tspan><tspan x="335" y="234">e filtrar animais</tspan></text>
+<line x1="103" y1="322" x2="195" y2="220" stroke="#0e3038" stroke-width="1.5"/>
+<ellipse cx="335" cy="340" rx="140" ry="34" fill="#d9ecea" stroke="#1f6f78" stroke-width="1.8"/>
+<text text-anchor="middle" fill="#0e3038"><tspan x="335" y="336" font-weight="bold">UC02 Ver perfil</tspan><tspan x="335" y="354">do animal</tspan></text>
+<line x1="103" y1="322" x2="195" y2="340" stroke="#0e3038" stroke-width="1.5"/>
+<ellipse cx="335" cy="460" rx="140" ry="34" fill="#d9ecea" stroke="#1f6f78" stroke-width="1.8"/>
+<text text-anchor="middle" fill="#0e3038"><tspan x="335" y="456" font-weight="bold">UC03 Manifestar interesse</tspan><tspan x="335" y="474">em adotar</tspan></text>
+<line x1="103" y1="322" x2="195" y2="460" stroke="#0e3038" stroke-width="1.5"/>
+<ellipse cx="665" cy="140" rx="140" ry="34" fill="#d9ecea" stroke="#1f6f78" stroke-width="1.8"/>
+<text text-anchor="middle" fill="#0e3038"><tspan x="665" y="136" font-weight="bold">UC04 Criar conta</tspan><tspan x="665" y="154">de responsável</tspan></text>
+<line x1="897" y1="322" x2="805" y2="140" stroke="#0e3038" stroke-width="1.5"/>
+<ellipse cx="665" cy="225" rx="140" ry="34" fill="#d9ecea" stroke="#1f6f78" stroke-width="1.8"/>
+<text text-anchor="middle" fill="#0e3038"><tspan x="665" y="221" font-weight="bold">UC05 Entrar</tspan><tspan x="665" y="239">(login)</tspan></text>
+<line x1="897" y1="322" x2="805" y2="225" stroke="#0e3038" stroke-width="1.5"/>
+<ellipse cx="665" cy="310" rx="140" ry="34" fill="#fff8de" stroke="#1f6f78" stroke-width="1.8"/>
+<text text-anchor="middle" fill="#0e3038"><tspan x="665" y="306" font-weight="bold">UC06 Cadastrar</tspan><tspan x="665" y="324">animal</tspan></text>
+<line x1="897" y1="322" x2="805" y2="310" stroke="#0e3038" stroke-width="1.5"/>
+<ellipse cx="665" cy="395" rx="140" ry="34" fill="#fff8de" stroke="#1f6f78" stroke-width="1.8"/>
+<text text-anchor="middle" fill="#0e3038"><tspan x="665" y="391" font-weight="bold">UC07 Ver meus</tspan><tspan x="665" y="409">animais</tspan></text>
+<line x1="897" y1="322" x2="805" y2="395" stroke="#0e3038" stroke-width="1.5"/>
+<ellipse cx="665" cy="480" rx="140" ry="34" fill="#fff8de" stroke="#1f6f78" stroke-width="1.8"/>
+<text text-anchor="middle" fill="#0e3038"><tspan x="665" y="476" font-weight="bold">UC08 Ver interessados</tspan><tspan x="665" y="494">e contatos</tspan></text>
+<line x1="897" y1="322" x2="805" y2="480" stroke="#0e3038" stroke-width="1.5"/>
+<ellipse cx="665" cy="565" rx="140" ry="34" fill="#fff8de" stroke="#1f6f78" stroke-width="1.8"/>
+<text text-anchor="middle" fill="#0e3038"><tspan x="665" y="561" font-weight="bold">UC09 Marcar como adotado</tspan><tspan x="665" y="579">ou reabrir adoção</tspan></text>
+<line x1="897" y1="322" x2="805" y2="565" stroke="#0e3038" stroke-width="1.5"/>
+<rect x="200" y="545" width="16" height="16" rx="4" fill="#fff8de" stroke="#1f6f78"/>
+<text x="224" y="558" font-size="12" fill="#0e3038">exige login (UC05)</text>
+<rect x="200" y="572" width="16" height="16" rx="4" fill="#d9ecea" stroke="#1f6f78"/>
+<text x="224" y="585" font-size="12" fill="#0e3038">acesso livre</text>
+<path d="M915 430V705H85V438" fill="none" stroke="#0e3038" stroke-width="1.8"/>
+<path d="M85 430l-9 14h18z" fill="white" stroke="#0e3038" stroke-width="1.8"/>
+<text x="500" y="697" text-anchor="middle" font-size="12" fill="#4d6269">o responsável também pode fazer tudo o que o visitante faz (generalização)</text>
+</svg>
